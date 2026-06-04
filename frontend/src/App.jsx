@@ -337,15 +337,20 @@ export default function App() {
     );
   };
 
-  const displayedWinners = currentWinner ? [...winners, currentWinner] : winners;
   const isSetup = phase === "setup";
+
+  // All participants alphabetically, with status for sidebar rendering.
+  // currentWinner is still in `names` during winner phase — mark it separately.
+  const allParticipants = [
+    ...names.map(n => ({ name: n, status: n === currentWinner ? "current" : "active" })),
+    ...winners.map(n => ({ name: n, status: "won" })),
+  ].sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className="app">
 
       {/* ── Top-right controls ── */}
       <div className="top-controls">
-        {/* 🎵 only visible in setup so contestants don't see the clip list */}
         {isSetup && (
           <button
             className={`icon-btn${showMusic ? " active" : ""}`}
@@ -361,117 +366,120 @@ export default function App() {
         </button>
       </div>
 
-      <h1 className="title">🎟 Raffle</h1>
+      {/* ── Two-column layout ── */}
+      <div className="app-layout">
 
-      {/* ── Music panel (setup only) ── */}
-      {isSetup && showMusic && (
-        <div className="music-panel">
-          <div className="music-panel-header">
-            <span>Winner music clips</span>
-            <button className="btn btn-upload" onClick={() => clipFileRef.current.click()}>
-              + Add MP3s
-            </button>
-            <input
-              ref={clipFileRef}
-              type="file"
-              accept="audio/mpeg,.mp3"
-              multiple
-              hidden
-              onChange={handleClipUpload}
-            />
-          </div>
+        {/* ── Main column ── */}
+        <div className="app-main">
+          <h1 className="title">🎟 Raffle</h1>
 
-          {clips.length === 0 ? (
-            <p className="music-empty">No clips loaded — synth fanfare will play instead.</p>
-          ) : (
-            <ul className="clip-list">
-              {clips.map(clip => (
-                <li key={clip.url} className="clip-item">
-                  <span className="clip-icon">♪</span>
-                  <span className="clip-name">{clip.name}</span>
-                  <button className="remove-btn" onClick={() => removeClip(clip.url)}>✕</button>
+          {/* Music panel (setup only) */}
+          {isSetup && showMusic && (
+            <div className="music-panel">
+              <div className="music-panel-header">
+                <span>Winner music clips</span>
+                <button className="btn btn-upload" onClick={() => clipFileRef.current.click()}>
+                  + Add MP3s
+                </button>
+                <input
+                  ref={clipFileRef}
+                  type="file"
+                  accept="audio/mpeg,.mp3"
+                  multiple
+                  hidden
+                  onChange={handleClipUpload}
+                />
+              </div>
+              {clips.length === 0 ? (
+                <p className="music-empty">No clips loaded — synth fanfare will play instead.</p>
+              ) : (
+                <ul className="clip-list">
+                  {clips.map(clip => (
+                    <li key={clip.url} className="clip-item">
+                      <span className="clip-icon">♪</span>
+                      <span className="clip-name">{clip.name}</span>
+                      <button className="remove-btn" onClick={() => removeClip(clip.url)}>✕</button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {/* Setup */}
+          {isSetup && (
+            <div className="setup">
+              <div className="input-row">
+                <input
+                  className="name-input"
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={handleKey}
+                  placeholder="Enter a name..."
+                  autoFocus
+                />
+                <button className="btn btn-add" onClick={addName}>Add</button>
+                <button className="btn btn-upload" onClick={() => fileRef.current.click()}>
+                  Upload .txt
+                </button>
+                <input ref={fileRef} type="file" accept=".txt" hidden onChange={handleTxtUpload} />
+              </div>
+
+              {names.length > 0 ? (
+                <button className="btn btn-spin" onClick={spin}>
+                  Start Raffle — {names.length} {names.length === 1 ? "contestant" : "contestants"}
+                </button>
+              ) : winners.length > 0 ? (
+                <div className="empty-state">
+                  <p>🎉 Everyone has won!</p>
+                  <button className="btn btn-spin" onClick={resetAll}>Start Over</button>
+                </div>
+              ) : (
+                <p className="hint">Add contestants or upload a .txt file to begin.</p>
+              )}
+            </div>
+          )}
+
+          {/* Spinning */}
+          {phase === "spinning" && (
+            <div className="spinning">
+              <p className="spin-label">Drawing…</p>
+              {renderReel(names)}
+            </div>
+          )}
+
+          {/* Winner */}
+          {phase === "winner" && (
+            <div className="winner-screen">
+              <p className="winner-label">Winner!</p>
+              {renderReel(names)}
+              <button className="btn btn-spin" onClick={goAgain}>
+                {names.length > 1 ? "Next Draw" : "Finish"}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* ── Participants sidebar ── */}
+        {allParticipants.length > 0 && (
+          <aside className="participants-sidebar">
+            <div className="sidebar-header">
+              <span>Participants</span>
+              <span className="sidebar-count">{names.length} remaining</span>
+            </div>
+            <ul className="sidebar-list">
+              {allParticipants.map(({ name, status }) => (
+                <li key={name} className={`sidebar-entry sidebar-${status}`}>
+                  <span className="sidebar-name">{name}</span>
+                  {status === "won"    && <span className="sidebar-badge won">✓</span>}
+                  {status === "current" && <span className="sidebar-badge current">🏆</span>}
                 </li>
               ))}
             </ul>
-          )}
-        </div>
-      )}
+          </aside>
+        )}
 
-      {/* ── Setup ── */}
-      {isSetup && (
-        <div className="setup">
-          <div className="input-row">
-            <input
-              className="name-input"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKey}
-              placeholder="Enter a name..."
-              autoFocus
-            />
-            <button className="btn btn-add" onClick={addName}>Add</button>
-            <button className="btn btn-upload" onClick={() => fileRef.current.click()}>
-              Upload .txt
-            </button>
-            <input ref={fileRef} type="file" accept=".txt" hidden onChange={handleTxtUpload} />
-          </div>
-
-          <ul className="name-list">
-            {names.map(name => (
-              <li key={name} className="name-tag">
-                <span>{name}</span>
-                <button className="remove-btn" onClick={() => removeName(name)}>✕</button>
-              </li>
-            ))}
-          </ul>
-
-          {names.length > 0 ? (
-            <button className="btn btn-spin" onClick={spin}>
-              Start Raffle — {names.length} {names.length === 1 ? "contestant" : "contestants"}
-            </button>
-          ) : winners.length > 0 ? (
-            <div className="empty-state">
-              <p>🎉 Everyone has won!</p>
-              <button className="btn btn-spin" onClick={resetAll}>Start Over</button>
-            </div>
-          ) : (
-            <p className="hint">Add contestants or upload a .txt file to begin.</p>
-          )}
-        </div>
-      )}
-
-      {/* ── Spinning ── */}
-      {phase === "spinning" && (
-        <div className="spinning">
-          <p className="spin-label">Drawing…</p>
-          {renderReel(names)}
-        </div>
-      )}
-
-      {/* ── Winner ── */}
-      {phase === "winner" && (
-        <div className="winner-screen">
-          <p className="winner-label">Winner!</p>
-          {renderReel(names)}
-          <button className="btn btn-spin" onClick={goAgain}>
-            {names.length > 1 ? "Next Draw" : "Finish"}
-          </button>
-        </div>
-      )}
-
-      {/* ── Past winners ── */}
-      {displayedWinners.length > 0 && (
-        <div className="winners-history">
-          <h2>Past Winners</h2>
-          <ol>
-            {displayedWinners.map((name, i) => (
-              <li key={i} className={name === currentWinner ? "current-winner-entry" : ""}>
-                {name}
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
+      </div>{/* end app-layout */}
     </div>
   );
 }
