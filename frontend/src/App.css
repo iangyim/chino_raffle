@@ -357,7 +357,7 @@
 
 /* ── Participants sidebar ────────────────────────────────────────────────── */
 .participants-sidebar {
-  width: 220px;
+  width: 340px;
   flex-shrink: 0;
   position: sticky;
   top: 0;
@@ -365,7 +365,7 @@
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--border);
-  padding: 28px 0 28px;
+  padding: 28px 0;
   overflow: hidden;
 }
 
@@ -373,7 +373,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 0 18px 16px;
+  padding: 0 16px 14px;
   border-bottom: 1px solid var(--border);
 
   span:first-child {
@@ -393,23 +393,30 @@
 
 .sidebar-list {
   list-style: none;
-  padding: 12px 0;
+  padding: 12px 8px;
   margin: 0;
-  overflow-y: auto;
   flex: 1;
+  overflow: hidden;
+
+  /* Two-column flow: fills left top→bottom, then right top→bottom */
+  columns: 2;
+  column-gap: 4px;
 }
 
 .sidebar-entry {
+  /* Prevent items from breaking across columns */
+  break-inside: avoid;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 18px;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 6px;
   transition: background 0.15s;
 }
 
 .sidebar-name {
   flex: 1;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--text-h);
   overflow: hidden;
@@ -418,7 +425,7 @@
 }
 
 .sidebar-badge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -430,10 +437,11 @@
 
 /* Won — dimmed + strikethrough */
 .sidebar-won {
-  opacity: 0.45;
+  opacity: 0.4;
   .sidebar-name {
     text-decoration: line-through;
     color: var(--text);
+    font-size: 15px;
   }
   .sidebar-badge.won { color: var(--text); }
 }
@@ -441,13 +449,10 @@
 /* Current winner — highlighted */
 .sidebar-current {
   background: var(--accent-bg);
-  border-radius: 8px;
-  margin: 0 8px;
-  padding: 7px 10px;
 
   .sidebar-name {
     color: var(--accent);
     font-weight: 700;
   }
-  .sidebar-badge.current { font-size: 14px; }
+  .sidebar-badge.current { font-size: 15px; }
 }
