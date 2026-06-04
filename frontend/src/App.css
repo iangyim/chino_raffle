@@ -232,6 +232,16 @@
   &:hover { border-color: var(--accent-border); color: var(--accent); }
 }
 
+.btn-test-sound {
+  background: none;
+  color: var(--accent);
+  border: 2px solid var(--accent-border);
+  font-size: 13px;
+  padding: 8px 14px;
+
+  &:hover { background: var(--accent-bg); }
+}
+
 .btn-spin {
   background: var(--accent);
   color: #fff;

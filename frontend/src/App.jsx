@@ -410,6 +410,13 @@ export default function App() {
             <div className="music-panel">
               <div className="music-panel-header">
                 <span>Winner music clips</span>
+                <button
+                  className="btn btn-test-sound"
+                  onClick={() => { stopAudio(); playWinnerSound(clips); }}
+                  title="Play a random clip to test your audio"
+                >
+                  ▶ Test sound
+                </button>
                 <button className="btn btn-upload" onClick={() => clipFileRef.current.click()}>
                   + Add MP3s
                 </button>
