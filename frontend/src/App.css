@@ -30,6 +30,7 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  z-index: 20; /* sit above sticky sidebars */
 }
 
 .icon-btn {
@@ -367,6 +368,7 @@
   border-right: 1px solid var(--border);
   padding: 28px 0;
   overflow: hidden;
+  z-index: 1;
 
   &--empty {
     /* Reserve space even when no winners yet so layout doesn't jump */
@@ -434,6 +436,7 @@
   border-left: 1px solid var(--border);
   padding: 28px 0;
   overflow: hidden;
+  z-index: 1;
 }
 
 .sidebar-header {
