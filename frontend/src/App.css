@@ -355,6 +355,73 @@
   margin: 0;
 }
 
+/* ── Winners sidebar (left) ─────────────────────────────────────────────── */
+.winners-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  overflow: hidden;
+
+  &--empty {
+    /* Reserve space even when no winners yet so layout doesn't jump */
+    opacity: 0.35;
+  }
+}
+
+.winners-list {
+  list-style: none;
+  padding: 12px 8px;
+  margin: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.winners-entry {
+  break-inside: avoid;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.winners-pos {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 28px;
+  flex-shrink: 0;
+}
+
+.winners-name {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-h);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.winners-trophy {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Current winner row */
+.winners-entry--current {
+  background: var(--accent-bg);
+
+  .winners-pos  { color: var(--accent); }
+  .winners-name { color: var(--accent); font-weight: 700; }
+}
+
 /* ── Participants sidebar ────────────────────────────────────────────────── */
 .participants-sidebar {
   width: 340px;

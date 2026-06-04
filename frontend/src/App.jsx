@@ -339,6 +339,16 @@ export default function App() {
 
   const isSetup = phase === "setup";
 
+  // Ordinal helper: 1 → "1st", 2 → "2nd", etc.
+  const ordinal = n => {
+    const s = ["th", "st", "nd", "rd"];
+    const v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+  };
+
+  // Winners in order they were drawn. currentWinner appended last if in winner phase.
+  const displayedWinners = currentWinner ? [...winners, currentWinner] : winners;
+
   // All participants alphabetically, with status for sidebar rendering.
   // currentWinner is still in `names` during winner phase — mark it separately.
   const allParticipants = [
@@ -366,8 +376,30 @@ export default function App() {
         </button>
       </div>
 
-      {/* ── Two-column layout ── */}
+      {/* ── Three-column layout ── */}
       <div className="app-layout">
+
+        {/* ── Left: winners history ── */}
+        <aside className={`winners-sidebar${displayedWinners.length === 0 ? " winners-sidebar--empty" : ""}`}>
+          <div className="sidebar-header">
+            <span>Winners</span>
+            {displayedWinners.length > 0 && (
+              <span className="sidebar-count">{displayedWinners.length} drawn</span>
+            )}
+          </div>
+          <ol className="winners-list">
+            {displayedWinners.map((name, i) => (
+              <li
+                key={i}
+                className={`winners-entry${name === currentWinner ? " winners-entry--current" : ""}`}
+              >
+                <span className="winners-pos">{ordinal(i + 1)}</span>
+                <span className="winners-name">{name}</span>
+                {name === currentWinner && <span className="winners-trophy">🏆</span>}
+              </li>
+            ))}
+          </ol>
+        </aside>
 
         {/* ── Main column ── */}
         <div className="app-main">
