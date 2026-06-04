@@ -1,0 +1,428 @@
+.app {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 80px;
+  font-family: var(--sans);
+  position: relative;
+}
+
+/* ── Top-right icon buttons ──────────────────────────────────────────────── */
+.top-controls {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.icon-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s, transform 0.1s;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 8px;
+
+  &:hover  { opacity: 1; }
+  &:active { transform: scale(0.88); }
+  &.active { opacity: 1; background: var(--accent-bg); }
+}
+
+.clip-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 999px;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ── Music panel ─────────────────────────────────────────────────────────── */
+.music-panel {
+  width: 100%;
+  max-width: 520px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.music-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  span {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-h);
+  }
+}
+
+.music-empty {
+  font-size: 13px;
+  color: var(--text);
+  text-align: center;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.clip-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.clip-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.clip-icon {
+  color: var(--accent);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.clip-name {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-h);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 52px;
+  letter-spacing: -1.5px;
+  margin: 0 0 40px;
+}
+
+/* ── Setup ───────────────────────────────────────────────────────────────── */
+.setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.name-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text-h);
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: var(--accent);
+  }
+}
+
+.name-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.name-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  font-size: 15px;
+  color: var(--text-h);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+
+  &:hover { color: #ff6b6b; }
+}
+
+.hint {
+  color: var(--text);
+  font-size: 15px;
+  text-align: center;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  p { font-size: 20px; font-weight: 600; color: var(--text-h); }
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  padding: 11px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.1s, box-shadow 0.2s;
+
+  &:active { transform: scale(0.97); }
+}
+
+.btn-add {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 2px solid var(--accent-border);
+
+  &:hover { background: var(--accent-border); }
+}
+
+.btn-upload {
+  background: var(--social-bg);
+  color: var(--text-h);
+  border: 2px solid var(--border);
+
+  &:hover { border-color: var(--accent-border); color: var(--accent); }
+}
+
+.btn-spin {
+  background: var(--accent);
+  color: #fff;
+  padding: 13px 32px;
+  font-size: 16px;
+  box-shadow: 0 4px 20px rgba(170, 59, 255, 0.35);
+  margin-top: 8px;
+
+  &:hover { box-shadow: 0 6px 28px rgba(170, 59, 255, 0.5); }
+}
+
+/* ── Spinning phase ──────────────────────────────────────────────────────── */
+.spinning {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.spin-label {
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: 0.4px;
+  margin: 0;
+}
+
+/* ── Slot machine reel ───────────────────────────────────────────────────── */
+.slot-window {
+  position: relative;
+  width: 420px;
+  max-width: 92vw;
+  height: calc(5 * 80px);   /* VISIBLE × ITEM_H */
+  overflow: hidden;
+  border: 2px solid var(--accent-border);
+  border-radius: 16px;
+  background: var(--accent-bg);
+}
+
+.slot-strip {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  will-change: transform;
+}
+
+.slot-item {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-h);
+  letter-spacing: -0.3px;
+}
+
+/* The name currently crossing the centre bracket */
+.slot-center {
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* Fixed highlight bracket at window centre */
+.slot-highlight {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 80px;
+  transform: translateY(-50%);
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Fade edges so names appear / disappear smoothly */
+.slot-window::before,
+.slot-window::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 36%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.slot-window::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--bg), transparent);
+  opacity: 0.88;
+}
+
+.slot-window::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--bg), transparent);
+  opacity: 0.88;
+}
+
+/* ── Winner phase ────────────────────────────────────────────────────────── */
+.winner-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.winner-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── Past winners ────────────────────────────────────────────────────────── */
+.winners-history {
+  margin-top: 48px;
+  width: 100%;
+  max-width: 420px;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+
+  h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin: 0 0 16px;
+    text-align: center;
+  }
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--social-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-h);
+    counter-increment: winner-count;
+
+    &::before {
+      content: counter(winner-count);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      min-width: 20px;
+    }
+  }
+}
+
+.winners-history ol {
+  counter-reset: winner-count;
+}
+
+/* Highlight the most recent winner in the list */
+.current-winner-entry {
+  border-color: var(--accent-border) !important;
+  background: var(--accent-bg) !important;
+  color: var(--accent) !important;
+
+  &::before {
+    color: var(--accent) !important;
+  }
+}
